@@ -1,0 +1,25 @@
+<html>
+<head>
+{% load bootstrap3 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+</head>
+<body style="background-color: #34de32">
+
+{# Display a form #}
+<div class="container">
+	<form action="#" method="post" class="form">
+	  {% csrf_token %}
+	  {% bootstrap_form form %}
+	  {% buttons %}
+	    <button type="submit" class="btn btn-primary">
+	      {% bootstrap_icon "star" %} Submit
+	    </button>
+	  {% endbuttons %}
+	</form>
+</div>
+
+</body>
+</html>
