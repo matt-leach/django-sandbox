@@ -1,6 +1,7 @@
 from django.db import models
 
 from location_field.models.plain import PlainLocationField
+from geoposition.fields import GeopositionField
 
 
 class Place(models.Model):
@@ -9,3 +10,8 @@ class Place(models.Model):
 
     def __unicode__(self):
         return self.name
+    
+
+class PointOfInterest(models.Model):
+    name = models.CharField(max_length=100)
+    position = GeopositionField()

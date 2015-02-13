@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'bootstrap3', # library
     'bootstrap',
     'location_field', # library
+    'geoposition', # alt library
     'location',
 )
 
