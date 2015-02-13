@@ -81,7 +81,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-GEOPOSITION_MAP_OPTIONS = {'scrollwheel': True}
+GEOPOSITION_MAP_OPTIONS = {'scrollwheel': True,
+                           'minZoom': 3, 'maxZoom': 15,
+                           "center": {'lat': 50, 'lng': -25}}
+GEOPOSITION_MARKER_OPTIONS = {"position": {'lat': 50, 'lng': -25}}
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
