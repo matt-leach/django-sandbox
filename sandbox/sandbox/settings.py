@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3', # library
+    'crispy_forms',
     'bootstrap',
     'location_field', # library
     'geoposition', # alt library
@@ -80,6 +81,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+CRISPY_TEMPLATE_PACK = "bootstrap3"
 
 GEOPOSITION_MAP_OPTIONS = {'scrollwheel': True,
                            'minZoom': 3, 'maxZoom': 15,

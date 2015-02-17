@@ -1,0 +1,18 @@
+<html>
+<head>
+{% load bootstrap3 %}
+{% load crispy_forms_tags %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+</head>
+<body style="background-color: #34de32">
+
+{# Display a form #}
+<div class="container">
+	{% crispy form %}
+</div>
+
+</body>
+</html>
