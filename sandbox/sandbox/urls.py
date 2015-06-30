@@ -8,7 +8,8 @@ urlpatterns = patterns('',
     url(r'^bootstrap/', include('bootstrap.urls')),
     url(r'^location/', include('location.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^whatsget/', 'sandbox.urls.printget')
+    url(r'^whatsget/', 'sandbox.urls.printget'),
+    url(r'^waypoints/', include('waypoints.urls')),
 )
 
 def printget(request):

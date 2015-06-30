@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Map</title>
+	<meta charset="utf-8" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+
+	 <style>
+	  #map {
+	    position: fixed;
+	    top: 0;
+	    left: 0;
+	    bottom: 0;
+	    right: 0;
+	  }
+  </style>
+
+</head>
+<body>
+	<div id="map"></div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="{{STATIC_URL}}waypoints/js/ajax.js"></script>
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+	<script>
+
+		var map = L.map('map').setView([51.505, -0.09], 13);
+
+		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+			maxZoom: 18,
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+			id: 'examples.map-i875mjb7'
+		}).addTo(map);
+
+		var markersLayer = new L.LayerGroup();
+
+		var popup = L.popup();
+
+		function onMapClick(e) {
+			popup
+				.setLatLng(e.latlng)
+				.setContent("What's here?: <input id='name'></input> <button onclick='addPoint("+e.latlng.lat+","+e.latlng.lng+")'>Done</button>")
+				.openOn(map);
+		}
+
+		map.on('click', onMapClick);
+
+		$(function() {
+
+			loadMarkers();
+
+			map.on('dragend', function(e) {
+				loadMarkers();
+			});
+
+			map.on('zoomend', function(e) {
+				loadMarkers();
+			});
+
+		});
+
+		function loadMarkers() {
+
+			var bounds = map.getBounds();
+			bounds = "top="+bounds._northEast.lat + '&right=' + bounds._northEast.lng + '&bottom=' + bounds._southWest.lat + '&left=' + bounds._southWest.lng;
+
+			$.get("{% url 'get_waypoints' %}?" + bounds, { }, function(data){
+				markersLayer.clearLayers();
+
+				$(data).each(function() {
+					var marker = new L.Marker(new L.LatLng(this.lat, this.long))
+						.bindPopup(this.name).openPopup();
+
+					markersLayer.addLayer(marker);
+					map.addLayer(markersLayer);
+
+				});
+
+
+			}, 'json');
+
+		}
+
+		function addPoint(lat, lng) {
+			name = document.getElementById("name").value;
+			$.post("{% url 'add_waypoint' %}", { "lat": lat, "long": lng, "name": name }, function() {
+				map.closePopup();
+			 	loadMarkers();
+			}, "json");
+
+		}
+
+
+	</script>
+</body>
+</html>
